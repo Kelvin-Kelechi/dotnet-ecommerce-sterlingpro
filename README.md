@@ -102,7 +102,7 @@ npm run dev
 
 ## Tech Stack
 
-- **Backend:** .NET 8, ASP.NET Core, EF Core (InMemory), Onion/Vertical Slice
+- **Backend:** .NET 8, ASP.NET Core, EF Core (InMemory), Onion Slice
 - **Frontend:** React, Vite, Tailwind CSS, react-icons
 
 ---
