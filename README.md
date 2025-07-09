@@ -38,12 +38,7 @@ Ecommerce/
 
 ## Getting Started
 
-### Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [Node.js & npm](https://nodejs.org/) (v18+ recommended)
-
----
 
 ### 1. Start the Backend API
 
