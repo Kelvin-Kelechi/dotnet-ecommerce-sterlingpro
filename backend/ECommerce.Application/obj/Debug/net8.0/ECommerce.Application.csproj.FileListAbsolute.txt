@@ -1,0 +1,16 @@
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/bin/Debug/net8.0/ECommerce.Application.deps.json
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/bin/Debug/net8.0/ECommerce.Application.dll
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/bin/Debug/net8.0/ECommerce.Application.pdb
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/bin/Debug/net8.0/ECommerce.Domain.dll
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/bin/Debug/net8.0/ECommerce.Domain.pdb
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.csproj.AssemblyReference.cache
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.AssemblyInfoInputs.cache
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.AssemblyInfo.cs
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.csproj.CoreCompileInputs.cache
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.sourcelink.json
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerc.670E0CBE.Up2Date
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.dll
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/refint/ECommerce.Application.dll
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ECommerce.Application.pdb
+/Users/salesman/Documents/MyProjects/Ecommerce/backend/ECommerce.Application/obj/Debug/net8.0/ref/ECommerce.Application.dll

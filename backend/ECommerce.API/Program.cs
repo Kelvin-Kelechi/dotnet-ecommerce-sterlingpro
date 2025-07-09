@@ -1,13 +1,25 @@
+using ECommerce.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-using ECommerce.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+
+// Add DbContext
+builder.Services.AddDbContext<ECommerceDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+// Seed data
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ECommerceDbContext>();
+    DataSeeder.SeedProducts(context);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
