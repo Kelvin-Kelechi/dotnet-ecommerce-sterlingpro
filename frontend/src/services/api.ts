@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Product, CartItem } from "../types";
+import type { CartItem, Product } from "../types";
+ 
 
 const API_BASE_URL = "http://localhost:5133/api";
 

@@ -16,7 +16,7 @@ public class CartController : ControllerBase
         _context = context;
     }
 
-    // For demo purposes, using a fixed UserId. In a real app, get this from authentication
+     
     private string UserId => "demo-user";
 
     [HttpGet]

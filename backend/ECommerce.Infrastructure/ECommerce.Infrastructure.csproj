@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.Domain\ECommerce.Domain.csproj" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.18" />
   </ItemGroup>
 

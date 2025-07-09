@@ -5,23 +5,31 @@ import {
   Route,
   Link,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import ProductCard from "./components/ProductCard";
 import Cart from "./components/Cart";
-import { Product, CartItem } from "./types";
+import Login from "./components/Login";
 import { productApi, cartApi } from "./services/api";
+import type { CartItem, Product } from "./types";
+import {
+  FaBagShopping,
+  FaBoxesStacked,
+  FaArrowRightFromBracket,
+} from "react-icons/fa6";
 
-// Navigation Component
-const Navigation: React.FC<{ cartItemCount: number }> = ({ cartItemCount }) => {
+const Navigation: React.FC<{ cartItemCount: number; onLogout: () => void }> = ({
+  cartItemCount,
+  onLogout,
+}) => {
   const location = useLocation();
 
   return (
-    <nav className="bg-white shadow-soft border-b border-gray-100 sticky top-0 z-50">
+    <nav className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-white"
                 fill="none"
@@ -39,29 +47,34 @@ const Navigation: React.FC<{ cartItemCount: number }> = ({ cartItemCount }) => {
             <span className="text-xl font-bold text-gray-900">TechStore</span>
           </Link>
 
-          {/* Navigation Links */}
           <div className="flex items-center space-x-8">
             <Link
               to="/"
               className={`text-sm font-medium transition-colors ${
                 location.pathname === "/"
-                  ? "text-primary-600"
+                  ? "text-blue-600"
                   : "text-gray-500 hover:text-gray-900"
               }`}
             >
-              Products
+              <FaBoxesStacked className="w-6 h-6" />
             </Link>
             <Link
               to="/cart"
               className="relative text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
             >
-              Cart
+              <FaBagShopping className="w-6 h-6" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}
             </Link>
+            <button
+              onClick={onLogout}
+              className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1"
+            >
+              <FaArrowRightFromBracket className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </div>
@@ -69,7 +82,6 @@ const Navigation: React.FC<{ cartItemCount: number }> = ({ cartItemCount }) => {
   );
 };
 
-// Products Page Component
 const ProductsPage: React.FC<{ onAddToCart: (productId: number) => void }> = ({
   onAddToCart,
 }) => {
@@ -96,7 +108,7 @@ const ProductsPage: React.FC<{ onAddToCart: (productId: number) => void }> = ({
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading products...</p>
         </div>
       </div>
@@ -130,12 +142,11 @@ const ProductsPage: React.FC<{ onAddToCart: (productId: number) => void }> = ({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4">Welcome to TechStore</h1>
-            <p className="text-xl text-primary-100 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
               Discover the latest in technology with our premium selection of
               gadgets and electronics.
             </p>
@@ -143,7 +154,6 @@ const ProductsPage: React.FC<{ onAddToCart: (productId: number) => void }> = ({
         </div>
       </div>
 
-      {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
@@ -159,7 +169,6 @@ const ProductsPage: React.FC<{ onAddToCart: (productId: number) => void }> = ({
   );
 };
 
-// Cart Page Component
 const CartPage: React.FC<{
   cartItems: CartItem[];
   onUpdateQuantity: (cartItemId: number, quantity: number) => void;
@@ -176,31 +185,52 @@ const CartPage: React.FC<{
   );
 };
 
-// Main App Component
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load cart items on app start
   useEffect(() => {
-    const loadCart = async () => {
-      try {
-        const items = await cartApi.getCart();
-        setCartItems(items);
-      } catch (err) {
-        console.error("Failed to load cart:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCart();
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const loadCart = async () => {
+        try {
+          const items = await cartApi.getCart();
+          setCartItems(items);
+        } catch (err) {
+          console.error("Failed to load cart:", err);
+        }
+      };
+      loadCart();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogin = (email: string, password: string) => {
+    if (email === "kelvin@gmail.com" && password === "password123") {
+      localStorage.setItem("authToken", "demo-token");
+      setIsAuthenticated(true);
+    } else {
+      alert("Invalid credentials. Use: kelvin@gmail.com / password123");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsAuthenticated(false);
+    setCartItems([]);
+  };
 
   const handleAddToCart = async (productId: number) => {
     try {
       await cartApi.addToCart(productId, 1);
-      // Reload cart items
+
       const items = await cartApi.getCart();
       setCartItems(items);
     } catch (err) {
@@ -215,7 +245,7 @@ const App: React.FC = () => {
       } else {
         await cartApi.updateCart(cartItemId, quantity);
       }
-      // Reload cart items
+
       const items = await cartApi.getCart();
       setCartItems(items);
     } catch (err) {
@@ -226,7 +256,7 @@ const App: React.FC = () => {
   const handleRemoveItem = async (cartItemId: number) => {
     try {
       await cartApi.removeFromCart(cartItemId);
-      // Reload cart items
+
       const items = await cartApi.getCart();
       setCartItems(items);
     } catch (err) {
@@ -238,7 +268,7 @@ const App: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -248,23 +278,36 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <Navigation cartItemCount={cartItems.length} />
-        <Routes>
-          <Route
-            path="/"
-            element={<ProductsPage onAddToCart={handleAddToCart} />}
-          />
-          <Route
-            path="/cart"
-            element={
-              <CartPage
-                cartItems={cartItems}
-                onUpdateQuantity={handleUpdateQuantity}
-                onRemoveItem={handleRemoveItem}
+        {isAuthenticated ? (
+          <>
+            <Navigation
+              cartItemCount={cartItems.length}
+              onLogout={handleLogout}
+            />
+            <Routes>
+              <Route
+                path="/"
+                element={<ProductsPage onAddToCart={handleAddToCart} />}
               />
-            }
-          />
-        </Routes>
+              <Route
+                path="/cart"
+                element={
+                  <CartPage
+                    cartItems={cartItems}
+                    onUpdateQuantity={handleUpdateQuantity}
+                    onRemoveItem={handleRemoveItem}
+                  />
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </>
+        ) : (
+          <Routes>
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        )}
       </div>
     </Router>
   );
